@@ -5,9 +5,11 @@ function Book(title, author, pages, read) {
   this.author = author
   this.pages = pages
   this.read = read
-  this.toggleRead = function () {
-    this.read = !this.read
-  }
+}
+
+/*it could have also been a part of constructor function but it's the whole purpose of the exercise */
+Book.prototype.toggleRead = function () {
+  this.read = !this.read
 }
 
 function addBookToLibrary(event) {
@@ -15,29 +17,35 @@ function addBookToLibrary(event) {
   event.preventDefault()
 
   const formEl = document.forms.bookForm
-  const bookInfoData = new FormData(formEl)
-  const bookInfoObject = Object.fromEntries(bookInfoData)
+  const formData = new FormData(formEl)
+  const bookInfo = Object.fromEntries(formData)
 
-  const isRead = bookInfoObject.read == 'on'
-  const bookInfoObjectWithBoolean = { ...bookInfoObject, read: isRead }
+  const isRead = bookInfo.read == 'on'
 
   /*check to prevent adding empty rows*/
-  if (!bookInfoObjectWithBoolean.book || !bookInfoObjectWithBoolean.author || !bookInfoObjectWithBoolean.pages) {
+  if (!bookInfo.book || !bookInfo.author || !bookInfo.pages) {
     alert('Please fill in all required fields.')
     return
   }
+  const addedBook = new Book(bookInfo.book, bookInfo.author, bookInfo.pages, isRead)
 
-  const addedBook = new Book(
-    bookInfoObjectWithBoolean.book,
-    bookInfoObjectWithBoolean.author,
-    bookInfoObjectWithBoolean.pages,
-    bookInfoObjectWithBoolean.read
-  )
   myLibrary.push(addedBook)
 
   displayBooks(myLibrary)
 
   formEl.reset()
+}
+
+function removeBook(index) {
+  if (confirm('Are you sure you want to delete this book from the table?')) {
+    myLibrary.splice(index, 1)
+    displayBooks(myLibrary)
+  }
+}
+
+function toggleReadStatus(index) {
+  myLibrary[index].toggleRead()
+  displayBooks()
 }
 
 function displayBooks(books) {
@@ -64,12 +72,7 @@ function displayBooks(books) {
     let tr = document.createElement('TR')
     let button = document.createElement('BUTTON')
     button.textContent = 'Remove book'
-    button.addEventListener('click', function () {
-      if (confirm('Are you sure you want to delete this book from the table?')) {
-        myLibrary.splice(index, 1)
-        displayBooks(myLibrary)
-      }
-    })
+    button.addEventListener('click', () => removeBook(index))
     button.classList.add('submitBtn')
     button.style.marginRight = '0'
 
@@ -79,10 +82,7 @@ function displayBooks(books) {
 
     let changeStatusButton = document.createElement('BUTTON')
     changeStatusButton.textContent = 'Toggle read/unread'
-    changeStatusButton.addEventListener('click', function () {
-      book.toggleRead()
-      displayBooks(myLibrary)
-    })
+    changeStatusButton.addEventListener('click', () => toggleReadStatus(index))
     changeStatusButton.classList.add('deleteBtn')
 
     let tdchangeStatusButton = document.createElement('TD')
