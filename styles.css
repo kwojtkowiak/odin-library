@@ -219,7 +219,7 @@ template {
   margin-right: -8px;
 }
 
-.submitBtn {
+.btn {
   background-color: #007bff;
   color: #fff;
   padding: 10px 20px;
@@ -227,6 +227,9 @@ template {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.submitBtn {
   margin-right: -8px;
 }
 

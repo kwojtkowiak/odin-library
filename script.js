@@ -31,7 +31,7 @@ function addBookToLibrary(event) {
 
   myLibrary.push(addedBook)
 
-  displayBooks(myLibrary)
+  displayBooks()
 
   formEl.reset()
 }
@@ -39,7 +39,7 @@ function addBookToLibrary(event) {
 function removeBook(index) {
   if (confirm('Are you sure you want to delete this book from the table?')) {
     myLibrary.splice(index, 1)
-    displayBooks(myLibrary)
+    displayBooks()
   }
 }
 
@@ -48,7 +48,7 @@ function toggleReadStatus(index) {
   displayBooks()
 }
 
-function displayBooks(books) {
+function displayBooks() {
   let myTableDiv = document.getElementById('booksTableWrapper')
   myTableDiv.innerHTML = ''
 
@@ -68,39 +68,20 @@ function displayBooks(books) {
   table.appendChild(thead)
 
   let tbody = document.createElement('TBODY')
-  books.forEach((book, index) => {
+  myLibrary.forEach((book, index) => {
     let tr = document.createElement('TR')
-    let button = document.createElement('BUTTON')
-    button.textContent = 'Remove book'
-    button.addEventListener('click', () => removeBook(index))
-    button.classList.add('submitBtn')
-    button.style.marginRight = '0'
-
-    let tdButton = document.createElement('TD')
-    tdButton.appendChild(button)
-    tdButton.style.textAlign = 'center'
-
-    let changeStatusButton = document.createElement('BUTTON')
-    changeStatusButton.textContent = 'Toggle read/unread'
-    changeStatusButton.addEventListener('click', () => toggleReadStatus(index))
-    changeStatusButton.classList.add('deleteBtn')
-
-    let tdchangeStatusButton = document.createElement('TD')
-    tdchangeStatusButton.appendChild(changeStatusButton)
-    tdchangeStatusButton.style.textAlign = 'center'
-
-    tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(index + 1))
-    tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(book.title))
-    tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(book.author))
-    tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(book.pages))
-    tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(book.read ? 'Yes' : 'No'))
-    tr.appendChild(tdchangeStatusButton)
-    tr.appendChild(tdButton)
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${book.title}</td>
+      <td>${book.author}</td>
+      <td>${book.pages}</td>
+      <td>${book.read ? 'Yes' : 'No'}</td>
+      <td><button class="btn submitBtn" onclick="toggleReadStatus(${index})">Toggle</button></td>
+      <td><button class="deleteBtn" onclick="removeBook(${index})">Remove</button></td>
+    `
     tbody.appendChild(tr)
   })
   table.appendChild(tbody)
 
   myTableDiv.appendChild(table)
 }
-
-displayBooks(myLibrary)
