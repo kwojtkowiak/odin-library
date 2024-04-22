@@ -5,8 +5,8 @@ function Book(title, author, pages, read) {
   this.author = author
   this.pages = pages
   this.read = read
-  this.info = function () {
-    return `${title} by ${author}, ${pages} pages, ${read ? 'read' : 'not read yet'}`
+  this.toggleRead = function () {
+    this.read = !this.read
   }
 }
 
@@ -47,7 +47,7 @@ function displayBooks(books) {
   let table = document.createElement('TABLE')
   table.border = '1'
 
-  let tableHeadings = ['No', 'Name', 'Author', 'Pages', 'Read?']
+  let tableHeadings = ['No', 'Name', 'Author', 'Pages', 'Read?', '', 'Remove?']
 
   let thead = document.createElement('THEAD')
   let tr = document.createElement('TR')
@@ -62,11 +62,41 @@ function displayBooks(books) {
   let tbody = document.createElement('TBODY')
   books.forEach((book, index) => {
     let tr = document.createElement('TR')
+    let button = document.createElement('BUTTON')
+    button.textContent = 'Remove book'
+    button.addEventListener('click', function () {
+      if (confirm('Are you sure you want to delete this book from the table?')) {
+        myLibrary.splice(index, 1)
+        displayBooks(myLibrary)
+      } else {
+      }
+    })
+    button.classList.add('submitBtn')
+    button.style.marginRight = '0'
+
+    let tdButton = document.createElement('TD')
+    tdButton.appendChild(button)
+    tdButton.style.textAlign = 'center'
+
+    let changeStatusButton = document.createElement('BUTTON')
+    changeStatusButton.textContent = 'Toggle read/unread'
+    changeStatusButton.addEventListener('click', function () {
+      book.toggleRead()
+      displayBooks(myLibrary)
+    })
+    changeStatusButton.classList.add('deleteBtn')
+
+    let tdchangeStatusButton = document.createElement('TD')
+    tdchangeStatusButton.appendChild(changeStatusButton)
+    tdchangeStatusButton.style.textAlign = 'center'
+
     tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(index + 1))
     tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(book.title))
     tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(book.author))
     tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(book.pages))
     tr.appendChild(document.createElement('TD')).appendChild(document.createTextNode(book.read ? 'Yes' : 'No'))
+    tr.appendChild(tdchangeStatusButton)
+    tr.appendChild(tdButton)
     tbody.appendChild(tr)
   })
   table.appendChild(tbody)
