@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+  </head>
+  <body>
+    <form class="form">
+      <div class="field">
+        <label for="book">Name of the book:</label>
+        <input type="text" id="book" name="book" required minlength="1" placeholder="Start typing here" />
+      </div>
+      <div class="field">
+        <label for="author">Name of the author:</label>
+        <input type="text" id="author" name="author" required minlength="1" placeholder="Start typing here" />
+      </div>
+      <div class="field">
+        <label for="pages">Number of pages:</label>
+        <input type="number" id="pages" name="pages" required minlength="1" placeholder="Numeric format" />
+      </div>
+      <div class="field checkboxField">
+        <label for="read">Already read?</label>
+        <input type="checkbox" id="read" name="read" required placeholder="Start typing here" />
+      </div>
+      <button type="submit" class="submitBtn" onclick="addBookToLibrary()">Add book</button>
+    </form>
+    <div class="books"></div>
+  </body>
+</html>
