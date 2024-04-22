@@ -68,7 +68,6 @@ function displayBooks(books) {
       if (confirm('Are you sure you want to delete this book from the table?')) {
         myLibrary.splice(index, 1)
         displayBooks(myLibrary)
-      } else {
       }
     })
     button.classList.add('submitBtn')
