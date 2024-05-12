@@ -76,9 +76,26 @@ function displayBooks() {
       <td>${book.author}</td>
       <td>${book.pages}</td>
       <td>${book.read ? 'Yes' : 'No'}</td>
-      <td><button class="btn submitBtn" onclick="toggleReadStatus(${index})">Toggle</button></td>
-      <td><button class="deleteBtn" onclick="removeBook(${index})">Remove</button></td>
     `
+    let toggleBtn = document.createElement('button')
+    toggleBtn.textContent = 'Toggle'
+    toggleBtn.className = 'btn submitBtn'
+    toggleBtn.onclick = function () {
+      toggleReadStatus(index)
+    }
+    let removeBtn = document.createElement('button')
+    removeBtn.textContent = 'Remove'
+    removeBtn.className = 'deleteBtn'
+    removeBtn.onclick = function () {
+      removeBook(index)
+    }
+    let toggleTd = document.createElement('td')
+    let removeTd = document.createElement('td')
+    toggleTd.appendChild(toggleBtn)
+    removeTd.appendChild(removeBtn)
+    tr.appendChild(toggleTd)
+    tr.appendChild(removeTd)
+
     tbody.appendChild(tr)
   })
   table.appendChild(tbody)
